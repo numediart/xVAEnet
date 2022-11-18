@@ -60,5 +60,5 @@ vol. 52, no. 1, pp. 2–6, Feb. 2003, conference Name: IEEE Transactions
 on Instrumentation and Measurement.
 
 ## Architecture
-![alt text](https://github.com/numediart/xVAEnet/blob/main/table_architecture.png)
+![alt text](https://github.com/numediart/xVAEnet/blob/main/detailed_architecture.png)
 Fig2. Detailed xVAEnet architecture
