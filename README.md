@@ -108,4 +108,6 @@ of 30 epochs have also been used. On the hypoxic burden, the
 learning rate was set to 10−3 and, once every 5 epochs, the
 whole model was trained using a global loss combining the
 three modules, as described in Equation 1.
-$$\mathcal{L}_{global} = \frac{1}{3}\mathcal{L}_{VAE} + \frac{1}{3} \frac{1}{bs} \sum_{i=1}^{bs} (1-fake\_pred_{i}) + \frac{1}{3}\mathcal{L}_{classif}$$
+```math
+\mathcal{L}_{global} = \frac{1}{3}\mathcal{L}_{VAE} + \frac{1}{3} \frac{1}{bs} \sum_{i=1}^{bs} (1-fake\_pred_{i}) + \frac{1}{3}\mathcal{L}_{classif}
+```
