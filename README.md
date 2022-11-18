@@ -62,3 +62,50 @@ on Instrumentation and Measurement.
 ## Architecture
 ![alt text](https://github.com/numediart/xVAEnet/blob/main/detailed_architecture.png)
 Fig2. Detailed xVAEnet architecture
+
+## Training
+The entire training phase has been
+performed on an NVIDIA GeForce GTX 1080Ti 12Go RAM
+on 12 workers.
+The first module to be trained is the VAE module. The training
+process has been performed on the trainset on 100 epochs with
+a batch size of 16, a learning rate of 5 · 10−3 and a ranger
+optimizer, while the validation has been done on the testset
+with a batch size of 32. A gradient accumulation of 64 samples
+and an early stopping option based on the validation loss with
+a patience of 10 epochs have also been used.
+Then, the GAN module has been trained by initializing the
+generator with the best weights of the encoder obtained during
+the VAE training phase and the discriminator is randomly
+initialized. At each batch, the discriminator is first trained
+by freezing the generator and using the loss function of the
+discriminator described in Section III, then the generator is
+trained by freezing the discriminator and using the correspond-
+ing loss function. This training phase is performed on the
+trainset on 100 epochs with a batch size of 16, a learning rate
+of 2 · 10−3 and a root mean square propagation (RMSprop)
+optimizer, while the validation process is done with a batch
+size of 32. A gradient accumulation of 64 samples and an early
+stopping option with a patience of 30 are also used. Every 15
+epochs, the updated network is used in inference to compute a
+new Zd vector given as real input for the 15 following epochs
+in order to avoid the deterioration of the “real” space to be
+responsible for the increase of the GAN performance.
+Finally, the classifier module is initialized with the weights
+of the best generator previously obtained and the single-
+layer perceptron is randomly initialized. In the philosophy of
+curriculum learning, the classifier is trained on each severity
+feature sequentially, starting with the low vs. high severity
+classification on the hypoxic burden, then on the arousal index
+and finally on the event duration. All the training processes
+for the classification task have been performed on the trainset
+on 100 epochs with a batch size of 16 and a ranger optimizer,
+and have been validate on the testset with a batch size of 32
+only the learning rate and the combination of loss functions
+differ. A gradient accumulation of 64 samples and an early
+stopping option based on the validation loss with a patience
+of 30 epochs have also been used. On the hypoxic burden, the
+learning rate was set to 10−3 and, once every 5 epochs, the
+whole model was trained using a global loss combining the
+three modules, as described in Equation 1.
+$$\mathcal{L}_{global} = \frac{1}{3}\mathcal{L}_{VAE} + \frac{1}{3} \frac{1}{bs} \sum_{i=1}^{bs} (1-fake\_pred_{i}) + \frac{1}{3}\mathcal{L}_{classif}$$
