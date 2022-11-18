@@ -107,18 +107,24 @@ stopping option based on the validation loss with a patience
 of 30 epochs have also been used. On the hypoxic burden, the
 learning rate was set to 10−3 and, once every 5 epochs, the
 whole model was trained using a global loss combining the
-three modules, as described in Equation 1.
+three modules:
 ```math
-\mathcal{L}_{global} = \frac{1}{3}\mathcal{L}_{VAE} + \frac{1}{3} \frac{1}{bs} \sum_{i=1}^{bs} (1-fake\_pred_{i}) + \frac{1}{3}\mathcal{L}_{classif} \ (1)
+\mathcal{L}_{global} = \frac{1}{3}\mathcal{L}_{VAE} + \frac{1}{3} \frac{1}{bs} \sum_{i=1}^{bs} (1-fake\_pred_{i}) + \frac{1}{3}\mathcal{L}_{classif}
 ```
 On the arousal index, the learning rate was set to 5 · 10−4, the
 global training was performed every 5 epochs and, once every
 2 epochs, the classification has been performed on both the
 hypoxic burden and the arousal index using a weighted sum
-of both losses: $\mathcal{L}_{classif_2} = \frac{1}{2}\cdot \mathcal{L}_{hypox} + \frac{1}{2}\cdot \mathcal{L}_{arousal}$.
+of both losses: 
+```mat
+\mathcal{L}_{classif_2} = \frac{1}{2}\cdot \mathcal{L}_{hypox} + \frac{1}{2}\cdot \mathcal{L}_{arousal}
+```
 On the
 respiratory event duration, the learning rate was set to 2·10−4,
 the global training was performed every 5 epochs and, twice
 every 3 epochs, the classification has been performed on all the
 severity features+ using a weighted sum of all classification
-losses: $\mathcal{L}_{classif_3} = \frac{1}{3}\cdot \mathcal{L}_{hypox} + \frac{1}{3}\cdot \mathcal{L}_{arousal} + \frac{1}{3}\cdot \mathcal{L}_{duration}$.
+losses: 
+```math
+\mathcal{L}_{classif_3} = \frac{1}{3}\cdot \mathcal{L}_{hypox} + \frac{1}{3}\cdot \mathcal{L}_{arousal} + \frac{1}{3}\cdot \mathcal{L}_{duration}
+```
