@@ -116,7 +116,7 @@ global training was performed every 5 epochs and, once every
 2 epochs, the classification has been performed on both the
 hypoxic burden and the arousal index using a weighted sum
 of both losses: 
-```mat
+```math
 \mathcal{L}_{classif_2} = \frac{1}{2}\cdot \mathcal{L}_{hypox} + \frac{1}{2}\cdot \mathcal{L}_{arousal}
 ```
 On the
