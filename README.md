@@ -1,5 +1,14 @@
 # xVAEnet
  
+## Data
+Each trial in the dataset is composed of 23 channels and 3001 timestamps, as shown on Figure 1
+![alt text](https://github.com/numediart/xVAEnet/blob/main/data.png)
+Fig. 1. Data overview. Example of a preprocessed 60-seconds trial with OSA
+event. Channels: 1) nasal airflow, 2-3) abdominal-thoracic respiratory motions,
+4) oxygen saturation, 5-6) electrooculograms, 7) pulse rate variability, 8)
+abdominal-thoracic motions phase shift, 9-23) EEG signal of the 3 selected
+electrodes at different frequency ranges.
+
 ## Preprocessing
 The EEG signals have been preprocessed
 following the COBIDAS MEEG recommendations from the
