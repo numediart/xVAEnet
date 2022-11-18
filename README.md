@@ -58,3 +58,7 @@ and sleep apnea by analyzing the phase relation of respiration movement
 signals,” IEEE Transactions on Instrumentation and Measurement,
 vol. 52, no. 1, pp. 2–6, Feb. 2003, conference Name: IEEE Transactions
 on Instrumentation and Measurement.
+
+## Architecture
+![alt text](https://github.com/numediart/xVAEnet/blob/main/table_architecture.pdf)
+Fig2. Detailed xVAEnet architecture
