@@ -2,6 +2,7 @@
 This repository provides the open-source codes and supplementary materials related to the publication:   
 La Fisca *et al*, "Explainable AI for EEG Biomarkers Identification
 in Obstructive Sleep Apnea Severity Scoring Task", 2023.
+
 ## Data
 Each trial in the dataset is composed of 23 channels and 3001 timestamps, as shown on Figure 1
 ![alt text](https://github.com/numediart/xVAEnet/blob/main/data.png)
@@ -130,6 +131,24 @@ losses:
 ```math
 \mathcal{L}_{classif_3} = \frac{1}{3}\cdot \mathcal{L}_{hypox} + \frac{1}{3}\cdot \mathcal{L}_{arousal} + \frac{1}{3}\cdot \mathcal{L}_{duration}
 ```
+
+
+## Quantitative Results
+Once trained, the VAE module is able to properly reconstruct the
+input PSG signals, with a final root-mean-square error (RMSE)
+of 0.196 on the trainset and 0.247 on the testset.
+The model including the GAN module still
+performs well in reconstruction with a RMSE of 0.214 on the
+trainset and 0.273 on the testset. The Gaussian distribution and
+generative ability are evaluated through the closeness between
+Ze and Zd defined by the discrimination efficiency of the
+discriminator. When giving samples from Zd (real input) to the
+discriminator, its mean accuracy reaches 81.6% (trainset) and
+76.4% (testset) meaning that it performs well in recognizing
+real inputs. However, this mean accuracy decreases to 52.3%
+and 49.8% (testset) when samples from Ze (fake input) is
+given as input, meaning the generator generates Ze samples
+sufficiently similar to Zd samples to fool the discriminator. 
 
 ## References
 [1] A. S. Jordan, D. G. McSharry, and A. Malhotra, “Adult obstructive sleep
