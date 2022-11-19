@@ -153,83 +153,83 @@ Sleep, vol. 44, no. 7, p. zsab030, Jul. 2021.
 [5] D.-H. Park, C.-J. Shin, S.-C. Hong, J. Yu, S.-H. Ryu, E.-J. Kim, H.-B.
 Shin, and B.-H. Shin, “Correlation between the Severity of Obstructive
 Sleep Apnea and Heart Rate Variability Indices,” Journal of Korean
-Medical Science, vol. 23, no. 2, p. 226, 2008.
+Medical Science, vol. 23, no. 2, p. 226, 2008.  
 [6] G. Bachar, B. Nageris, R. Feinmesser, T. Hadar, E. Yaniv, T. Shpitzer,
 and L. Eidelman, “Novel grading system for quantifying upper-airway
 obstruction on sleep endoscopy,” Lung, vol. 190, no. 3, pp. 313–318,
-Jun. 2012.
+Jun. 2012.  
 [7] A. Kulkas, P. Tiihonen, P. Julkunen, E. Mervaala, and J. T ̈oyr ̈as, “Novel
 parameters indicate significant differences in severity of obstructive sleep
 apnea with patients having similar apnea–hypopnea index,” Medical &
 Biological Engineering & Computing, vol. 51, no. 6, pp. 697–708, Jun.
-2013.
+2013.  
 [8] A. Muraja-Murro, A. Kulkas, M. Hiltunen, S. Kupari, T. Hukkanen,
 P. Tiihonen, E. Mervaala, and J. T ̈oyr ̈as, “Adjustment of apnea-hypopnea
 index with severity of obstruction events enhances detection of sleep
 apnea patients with the highest risk of severe health consequences,”
-Sleep and Breathing, vol. 18, no. 3, pp. 641–647, Sep. 2014.
+Sleep and Breathing, vol. 18, no. 3, pp. 641–647, Sep. 2014.  
 [9] H. Korkalainen, J. T ̈oyr ̈as, S. Nikkonen, and T. Lepp ̈anen, “Mortality-
 risk-based apnea–hypopnea index thresholds for diagnostics of obstruc-
 tive sleep apnea,” Journal of Sleep Research, vol. 28, no. 6, p. e12855,
-2019, eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/jsr.12855.
+2019, eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/jsr.12855.  
 [10] W. Cao, J. Luo, and Y. Xiao, “A Review of Current Tools Used for
 Evaluating the Severity of Obstructive Sleep Apnea,” Nature and Science
-of Sleep, vol. 12, pp. 1023–1031, Nov. 2020, publisher: Dove Press.
+of Sleep, vol. 12, pp. 1023–1031, Nov. 2020, publisher: Dove Press.  
 [11] A. Zinchuk and H. K. Yaggi, “Phenotypic Subtypes of OSA: A Chal-
 lenge and Opportunity for Precision Medicine,” CHEST, vol. 157, no. 2,
-pp. 403–420, Feb. 2020, publisher: Elsevier.
+pp. 403–420, Feb. 2020, publisher: Elsevier.  
 [12] G. Labarca, J. Gower, L. Lamperti, J. Dreyse, and J. Jorquera, “Chronic
 intermittent hypoxia in obstructive sleep apnea: a narrative review from
 pathophysiological pathways to a precision clinical approach,” Sleep and
-Breathing, vol. 24, no. 2, pp. 751–760, Jun. 2020.
+Breathing, vol. 24, no. 2, pp. 751–760, Jun. 2020.  
 [13] S. Pusk ́as, N. Koz ́ak, D. Sulina, L. Csiba, and M. T. Magyar, “Quantita-
 tive EEG in obstructive sleep apnea syndrome: a review of the literature,”
-Reviews in the Neurosciences, vol. 28, no. 3, pp. 265–270, Apr. 2017.
+Reviews in the Neurosciences, vol. 28, no. 3, pp. 265–270, Apr. 2017.  
 [14] E. Sforza, S. Grandin, C. Jouny, T. Rochat, and V. Ibanez, “Is waking
 electroencephalographic activity a predictor of daytime sleepiness in
 sleep-related breathing disorders?” The European Respiratory Journal,
-vol. 19, no. 4, pp. 645–652, Apr. 2002.
+vol. 19, no. 4, pp. 645–652, Apr. 2002.  
 [15] K. Dingli, T. Assimakopoulos, I. Fietze, C. Witt, P. K. Wraith, and
 N. J. Douglas, “Electroencephalographic spectral analysis: detection
 of cortical activity changes in sleep apnoea patients,” The European
-Respiratory Journal, vol. 20, no. 5, pp. 1246–1253, Nov. 2002.
+Respiratory Journal, vol. 20, no. 5, pp. 1246–1253, Nov. 2002.  
 [16] M. Younes, A. Azarbarzin, M. Reid, D. R. Mazzotti, and S. Redline,
 “Characteristics and reproducibility of novel sleep EEG biomarkers and
 their variation with sleep apnea and insomnia in a large community-
-based cohort,” Sleep, vol. 44, no. 10, p. zsab145, Oct. 2021.
+based cohort,” Sleep, vol. 44, no. 10, p. zsab145, Oct. 2021.  
 [17] S. Nikkonen, H. Korkalainen, S. Kainulainen, S. Myllymaa, A. Leino,
 L. Kalevo, A. Oksenberg, T. Lepp ̈anen, and J. T ̈oyr ̈as, “Estimating
 daytime sleepiness with previous night electroencephalography, elec-
 trooculography, and electromyography spectrograms in patients with
 suspected sleep apnea using a convolutional neural network,” Sleep,
-vol. 43, no. 12, p. zsaa106, Dec. 2020.
+vol. 43, no. 12, p. zsaa106, Dec. 2020.  
 [18] G. C. Guti ́errez-Tobal, D.  ́Alvarez, A. Crespo, F. del Campo, and
 R. Hornero, “Evaluation of Machine-Learning Approaches to Estimate
 Sleep Apnea Severity From At-Home Oximetry Recordings,” IEEE
 Journal of Biomedical and Health Informatics, vol. 23, no. 2, pp. 882–
 892, Mar. 2019, conference Name: IEEE Journal of Biomedical and
-Health Informatics.
+Health Informatics.  
 [19] M. Ghassemi, L. Oakden-Rayner, and A. L. Beam, “The false hope of
 current approaches to explainable artificial intelligence in health care,”
-The Lancet Digital Health, vol. 3, no. 11, pp. e745–e750, Nov. 2021.
+The Lancet Digital Health, vol. 3, no. 11, pp. e745–e750, Nov. 2021.  
 [20] P. Angelov and E. Soares, “Towards explainable deep neural networks
-(xDNN),” Neural Networks, vol. 130, pp. 185–194, Oct. 2020.
+(xDNN),” Neural Networks, vol. 130, pp. 185–194, Oct. 2020.  
 [21] A. Gramfort, M. Luessi, E. Larson, D. Engemann, D. Strohmeier,
 C. Brodbeck, R. Goj, M. Jas, T. Brooks, L. Parkkonen, and
 M. H ̈am ̈al ̈ainen, “MEG and EEG data analysis with MNE-Python,”
-Frontiers in Neuroscience, vol. 7, 2013.
+Frontiers in Neuroscience, vol. 7, 2013.  
 [22] D. P. Kingma and M. Welling, “Auto-Encoding Variational Bayes,” May
-2014, arXiv:1312.6114 [cs, stat].
+2014, arXiv:1312.6114 [cs, stat].  
 [23] X. Zhang, L. Yao, and F. Yuan, “Adversarial Variational Embedding
 for Robust Semi-supervised Learning,” in Proceedings of the 25th ACM
 SIGKDD International Conference on Knowledge Discovery & Data
 Mining, ser. KDD ’19. New York, NY, USA: Association for Computing
-Machinery, Jul. 2019, pp. 139–147.
+Machinery, Jul. 2019, pp. 139–147.  
 [24] N. A. Eiseman, M. B. Westover, J. M. Ellenbogen, and M. T. Bianchi,
 “The Impact of Body Posture and Sleep Stages on Sleep Apnea Severity
 in Adults,” Journal of Clinical Sleep Medicine, vol. 08, no. 06, pp. 655–
-666, 2012, publisher: American Academy of Sleep Medicine.
+666, 2012, publisher: American Academy of Sleep Medicine.  
 [25] S. G. Jones, B. A. Riedner, R. F. Smith, F. Ferrarelli, G. Tononi,
 R. J. Davidson, and R. M. Benca, “Regional Reductions in Sleep
 Electroencephalography Power in Obstructive Sleep Apnea: A High-
-Density EEG Study,” Sleep, vol. 37, no. 2, pp. 399–407, Feb. 2014.
+Density EEG Study,” Sleep, vol. 37, no. 2, pp. 399–407, Feb. 2014.  
