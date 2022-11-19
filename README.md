@@ -1,6 +1,6 @@
 # xVAEnet
-This repository provides the open-source codes and supplementary materials related to the publication: \\
-La Fisca \textit{et al.}, "Explainable AI for EEG Biomarkers Identification
+This repository provides the open-source codes and supplementary materials related to the publication:   
+La Fisca *et al*, "Explainable AI for EEG Biomarkers Identification
 in Obstructive Sleep Apnea Severity Scoring Task", 2023.
 ## Data
 Each trial in the dataset is composed of 23 channels and 3001 timestamps, as shown on Figure 1
@@ -133,23 +133,23 @@ losses:
 
 ## References
 [1] A. S. Jordan, D. G. McSharry, and A. Malhotra, “Adult obstructive sleep
-apnoea,” The Lancet, vol. 383, no. 9918, pp. 736–747, Feb. 2014.\\
+apnoea,” The Lancet, vol. 383, no. 9918, pp. 736–747, Feb. 2014.  
 [2] R. B. Berry, R. Budhiraja, D. J. Gottlieb, D. Gozal, C. Iber, V. K.
 Kapur, C. L. Marcus, R. Mehra, S. Parthasarathy, S. F. Quan, S. Redline,
 K. P. Strohl, S. L. D. Ward, and M. M. Tangredi, “Rules for Scoring
 Respiratory Events in Sleep: Update of the 2007 AASM Manual for
 the Scoring of Sleep and Associated Events,” Journal of Clinical Sleep
 Medicine, vol. 08, no. 05, pp. 597–619, 2012, publisher: American
-Academy of Sleep Medicine.
+Academy of Sleep Medicine.  
 [3] D. A. Pevernagie, B. Gnidovec-Strazisar, L. Grote, R. Heinzer, W. T.
 McNicholas, T. Penzel, W. Randerath, S. Schiza, J. Verbraecken, and
 E. S. Arnardottir, “On the rise and fall of the apneahypopnea index:
 A historical review and critical appraisal,” Journal of Sleep Research,
-vol. 29, no. 4, p. e13066, 2020.
+vol. 29, no. 4, p. e13066, 2020.  
 [4] A. Malhotra, I. Ayappa, N. Ayas, N. Collop, D. Kirsch, N. Mcardle,
 R. Mehra, A. I. Pack, N. Punjabi, D. P. White, and D. J. Gottlieb,
 “Metrics of sleep apnea severity: beyond the apnea-hypopnea index,”
-Sleep, vol. 44, no. 7, p. zsab030, Jul. 2021.
+Sleep, vol. 44, no. 7, p. zsab030, Jul. 2021.  
 [5] D.-H. Park, C.-J. Shin, S.-C. Hong, J. Yu, S.-H. Ryu, E.-J. Kim, H.-B.
 Shin, and B.-H. Shin, “Correlation between the Severity of Obstructive
 Sleep Apnea and Heart Rate Variability Indices,” Journal of Korean
