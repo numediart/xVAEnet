@@ -99,7 +99,7 @@ of the best generator previously obtained and the single-
 layer perceptron is randomly initialized. In the philosophy of
 curriculum learning, the classifier is trained on each severity
 feature sequentially, starting with the low vs. high severity
-classification on the hypoxic burden, then on the arousal index
+classification on the hypoxic burden, then on the arousal event
 and finally on the event duration. All the training processes
 for the classification task have been performed on the trainset
 on 100 epochs with a batch size of 16 and a ranger optimizer,
@@ -114,10 +114,10 @@ three modules:
 ```math
 \mathcal{L}_{global} = \frac{1}{3}\mathcal{L}_{VAE} + \frac{1}{3} \frac{1}{bs} \sum_{i=1}^{bs} (1-fake\_pred_{i}) + \frac{1}{3}\mathcal{L}_{classif}
 ```
-On the arousal index, the learning rate was set to 5 · 10−4, the
+On the arousal event, the learning rate was set to 5 · 10−4, the
 global training was performed every 5 epochs and, once every
 2 epochs, the classification has been performed on both the
-hypoxic burden and the arousal index using a weighted sum
+hypoxic burden and the arousal event using a weighted sum
 of both losses: 
 ```math
 \mathcal{L}_{classif_2} = \frac{1}{2}\cdot \mathcal{L}_{hypox} + \frac{1}{2}\cdot \mathcal{L}_{arousal}
