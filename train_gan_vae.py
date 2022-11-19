@@ -1,3 +1,7 @@
+# Luca La Fisca
+# ------------------------------
+# Copyright UMONS (C) 2022
+
 import zarr
 from fastai.tabular.all import *
 from fastai.data.all import *

@@ -1,5 +1,7 @@
 # xVAEnet
- 
+This repository provides the open-source codes and supplementary materials related to the publication: \\
+La Fisca \textit{et al.}, "Explainable AI for EEG Biomarkers Identification
+in Obstructive Sleep Apnea Severity Scoring Task", 2023.
 ## Data
 Each trial in the dataset is composed of 23 channels and 3001 timestamps, as shown on Figure 1
 ![alt text](https://github.com/numediart/xVAEnet/blob/main/data.png)

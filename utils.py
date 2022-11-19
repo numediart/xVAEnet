@@ -1,3 +1,7 @@
+# Luca La Fisca
+# ------------------------------
+# Copyright UMONS (C) 2022
+
 from fastai.tabular.all import *
 from tsai.all import *
 from torch import nn

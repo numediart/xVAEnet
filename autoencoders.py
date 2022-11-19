@@ -1,7 +1,6 @@
-# import sys
-# # setting path
-# sys.path.append('../../models')
-# from models import BaseVAE
+# Luca La Fisca
+# ------------------------------
+# Copyright UMONS (C) 2022
 
 from torch import nn
 from torch.autograd import Variable
