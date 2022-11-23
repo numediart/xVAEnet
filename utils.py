@@ -210,21 +210,15 @@ class TrainClassif(Callback):
         cycle_len = 5
         if (self.epoch+1) % cycle_len == 0:
             self.learn.model.fc_clf = self.learn.model.fc_clf.requires_grad_(True)
-            # self.learn.model.fc_area = self.learn.model.fc_area.requires_grad_(True)
-            # self.learn.model.fc_reveil = self.learn.model.fc_reveil.requires_grad_(True)
-            # self.learn.model.fc_duration = self.learn.model.fc_duration.requires_grad_(True)
             self.learn.model.fc_crit = self.learn.model.fc_crit.requires_grad_(True)
             self.learn.model.fc_crit2 = self.learn.model.fc_crit2.requires_grad_(True)
             self.learn.model.fc_crit3 = self.learn.model.fc_crit3.requires_grad_(True)
             print("!!!!!!!!!!! GRAD SET TO TRUE !!!!!!!!!!!!!")
         elif (self.epoch+1) % cycle_len == 1:
             self.learn.model.fc_clf = self.learn.model.fc_clf.requires_grad_(False)
-            # self.learn.model.fc_reveil = self.learn.model.fc_reveil.requires_grad_(False)
-            # self.learn.model.fc_duration = self.learn.model.fc_duration.requires_grad_(False)
             self.learn.model.fc_crit = self.learn.model.fc_crit.requires_grad_(False)
             self.learn.model.fc_crit2 = self.learn.model.fc_crit2.requires_grad_(False)
             self.learn.model.fc_crit3 = self.learn.model.fc_crit3.requires_grad_(False)
-
             print("!!!!!!!!!!! GRAD SET TO FALSE !!!!!!!!!!!!!")
 
     def after_loss(self):
@@ -235,103 +229,18 @@ class TrainClassif(Callback):
             VAE_weight = .5
             classif_weight = 1/3
             self.learn.tk_mean = 1 - self.tk_mean
-            # print("before callback, loss is:", str(self.loss))
             self.learn.loss = ((1-classif_weight)*(VAE_weight*
                     ((1-self.kld_weight)*self.recons_loss + #Reconstruction loss
                     self.kld_weight*self.kld_loss) + #Kullback-Leibler loss
                     (1-VAE_weight)*self.tk_mean) + #GAN generator loss
                     classif_weight*self.classif_loss) #Classif loss
-            # print("the loss grad in callback is: ",str(self.loss.requires_grad))
-            # print(self.loss)
-            # time.sleep(20)
         elif self.nclass == 2 and (self.epoch+1) % 2 == 1:
-            self.learn.loss = ce(self.pred_reveil.to(device),self.targ2.to(device))
+            self.learn.loss = 1/2 * ce(self.pred_class,self.targ1) + 1/2 * ce(self.pred_class,self.targ2)
         elif self.nclass == 3 and (self.epoch+1) % 3 == 1:
-            self.learn.loss = ce(self.pred_duration.to(device),self.targ3.to(device))
-        elif self.nclass == 3 and (self.epoch+1) % 3 == 2:
-            pred_class = torch.zeros(self.targ3.shape[0],4).to(device)
-            for i in range(2):
-                for j in range(2):
-                    pred_class[:,2*i+j] = self.pred_reveil[:,i] * self.pred_duration[:,j]
-            self.learn.loss = ce(pred_class.to(device), (2*self.targ2 + self.targ3).to(device))
+            self.learn.loss = (1/3 * ce(self.pred_class,self.targ1) + 1/3 * ce(self.pred_class,self.targ2) +
+                                1/3 * ce(self.pred_class,self.targ3))
 
     def after_epoch(self):
-        # print("grad of layer fc_clf:")
-        # print(self.model.fc_clf.weight.grad)
-        # print("grad of layer fc_z:")
-        # print(self.model.fc_z.weight.grad)
-        # print("grad of layer fc_crit3:")
-        # print(self.model.fc_crit3.weight.grad)
         print("final loss is: ", str(self.loss))
         print("single losses are: ", str(self.recons_loss), str(self.kld_loss),
             str(self.tk_mean), str(self.classif_loss))
-
-    # def before_batch(self):
-    #     # print(self.xb[0])
-    #     # print(self.xb[0].max)
-    #     # print(self.xb[0].max())
-    #     print("before batch, max is ", str(self.xb[0].max()), " min is ", str(self.xb[0].min()))
-
-    # def after_batch(self):
-    #     print("after batch, max is ", str(self.xb[0].max()), " min is ", str(self.xb[0].min()))
-    #     time.sleep(1)
-
-'''
-class TrainClassif(Callback):
-    def __init__(self,zi_init=None,labels=None,cycle_len=100):
-        self.zi_init = zi_init
-        self.labels = labels
-        self.cycle_len = cycle_len
-        
-#     def before_fit(self):
-#         X, Y = self.zi_init.to('cpu').numpy(), self.labels
-#         # print("in TrainClassif, Before fit, X & Y shapes are: "+str((X.shape, Y.shape)))
-#         sss = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=0)
-# #         sss.get_n_splits(X,Y)
-#         idx_train, idx_test = next(sss.split(X, Y))
-#         X_train, X_test = X[idx_train], X[idx_test]
-#         Y_train, Y_test = Y[idx_train], Y[idx_test]
-
-#         self.learn.clf.fit(X_train,Y_train)
-
-    def after_epoch(self):
-        if (self.epoch+1) % self.cycle_len == 0:
-            X = self.zi_valid
-            tmp_cbs = self.cbs[-2:]
-            self.learn.cbs = self.cbs[:-2]
-            self.learn.add_cb(GetLatentSpace(cycle_len=1))
-            self.learn.get_preds(ds_idx=0,inner=True)
-            self.learn.cbs = self.cbs[:-1]
-            self.learn.add_cbs(tmp_cbs)
-
-            # tmp.get_preds(ds_idx=0, cbs=[GetLatentSpace(cycle_len=1)])
-            # print("in TrainClassif, the new shape of zi train is: "+str(self.zi_valid.shape))
-            X = torch.vstack((self.zi_valid,X))
-            # self = copy(my_learn)
-            # X, Y = X.to('cpu').numpy(), self.labels
-            X, Y = X.to('cpu').numpy(), self.labels
-            # print("in TrainClassif, X & Y shapes are: "+str((X.shape, Y.shape)))
-
-            sss = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=0)
-            idx_train, idx_test = next(sss.split(X, Y))
-            # print((idx_train,idx_train))
-            X_train, X_test = X[idx_train], X[idx_test]
-            Y_train, Y_test = Y[idx_train], Y[idx_test]
-
-            # print("before fitting randomforst, the loss is: "+str(self.loss))
-            print("start classifier fit")
-            print('loss is', self.loss)
-            # print(self.cbs)
-            self.learn.clf.fit(X_train,Y_train)
-            Y_pred = self.clf.predict(X_test)
-            print("type of pred: ", str(type(Y_pred)))
-            print("type of test: ", str(type(Y_test)))
-            print((Y_pred,Y_test))
-            fscore = metrics.f1_score(Y_test,Y_pred)
-            print("classification F1-score: "+str(fscore))
-            print("recons : "+str(self.learn.recons_loss))
-            print("kld : "+str(self.learn.kld_loss))
-            print("discrim : "+str(self.learn.tk_mean))
-            print("classif : "+str(self.learn.classif_loss))
-            # print("after fitting randomforst, the loss is: "+str(self.loss))
-'''

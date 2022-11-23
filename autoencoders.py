@@ -61,9 +61,6 @@ class stagerNetVAE(nn.Module):
         # self.clf = LinearDiscriminantAnalysis(n_components=1) 
         if self.typ >= 3:
             self.fc_clf = nn.Linear(self.latent_dim, 2)
-            # self.fc_area = nn.Linear(self.latent_dim, 2)
-            # self.fc_reveil = nn.Linear(self.latent_dim, 2)
-            # self.fc_duration = nn.Linear(self.latent_dim, 2)
 
         
     def encode(self, input: Tensor) -> List[Tensor]:
@@ -85,8 +82,6 @@ class stagerNetVAE(nn.Module):
         # if self.typ==3:
         zi = F.relu(self.bn_lin(zi))
 
-        #print('in encode, shape of zi: '+str(zi.shape))
-
         # Split the result into mu and var components of the latent Gaussian distribution
         mu = self.fc_mu(zi)
         log_var = self.fc_var(zi)
@@ -94,8 +89,6 @@ class stagerNetVAE(nn.Module):
         mu = F.relu(self.bn_lin(mu))
         log_var = F.relu(self.bn_lin(log_var))
 
-        # print(self.fc_test.weight.grad, self.fc_test.bias.grad)
-        # print(self.fc_mu.weight.grad, self.fc_mu.bias.grad)
         return [zi, mu, log_var, ind_maxpool1, ind_maxpool2, input_mp1, input_mp2]
     
     def decode(self, z: Tensor, ind1, ind2, in1, in2) -> Tensor:
@@ -129,9 +122,6 @@ class stagerNetVAE(nn.Module):
         return x
 
     def forward(self, input: Tensor, **kwargs) -> Tensor:
-        # print('I am in forward,\n my input is: '+str(input.shape)+str(type(input))+
-        #     '\n My type  is: '+str(self.typ))
-        # print("min is :",str(input.min())," max is: ", str(input.max()))
         if self.typ == 4:
             self.lab = input[:,0,-1].type(torch.LongTensor)#.to(device)
             input = input[:,:,:-1]
@@ -144,20 +134,14 @@ class stagerNetVAE(nn.Module):
                 zi, mu, log_var, ind1, ind2, in1, in2 = self.encode(input)
 
             else:
-                zi, mu, log_var, ind1, ind2, in1, in2 = self.encode(input.type(torch.FloatTensor).to('cpu'))#.detach().cpu())
-                # test, zi, mu, log_var, ind1, ind2, in1, in2 = self.encode(input.to('cpu'))
+                zi, mu, log_var, ind1, ind2, in1, in2 = self.encode(input.type(torch.FloatTensor).to('cpu'))
             self.zi = zi
-            # print("my zi:", str(self.zi))
             zs = self.reparameterize(mu, log_var)
-            # print("my zs:", str(zs.shape))
             zi_gan = zi.view(-1, self.latent_dim, 1)
             if self.typ>1 and self.typ<4:
-                #print('shape of input latent space: '+str(zi_gan.shape))
                 self.gan_class = self.latent_gan(zi_gan)
             decoded = self.decode(zs, ind1, ind2, in1, in2)
-            # decoded = self.decode(ztest, ind1, ind2, in1, in2)
             self.decoded = decoded.permute(0, 1, 3, 2)
-            # print("my decoded:",str(decoded.shape), str(decoded[0,:,20]))
             self.mu = mu
             self.log_var = log_var
             self.ind1 = ind1
@@ -168,54 +152,22 @@ class stagerNetVAE(nn.Module):
             # time.sleep(2)
 
             if self.typ >= 3:
-                # self.pred_class = F.softmax(self.fc_clf(zi))
-                # self.pred_class = torch.Tensor(self.clf.predict(zi.to('cpu').detach().numpy())).unsqueeze(1).to(device)
-#                 self.pred_class = torch.Tensor(self.clf.predict(zi)).unsqueeze(1)
-                self.pred_area = F.softmax(self.fc_clf(zi)).to(device)
-                if self.nclass > 1:
-                    self.pred_reveil = F.softmax(self.fc_clf(zi)).to(device)
-                else: self.pred_reveil = self.pred_area
-                if self.nclass == 3:
-                    self.pred_duration = F.softmax(self.fc_clf(zi)).to(device)
-                else: self.pred_duration = self.pred_area
-
-                # if self.nclass == 1:
-                #     self.pred_class = self.pred_area
-                # elif self.nclass == 2:
-                #     self.pred_class = torch.zeros(input.shape[0],4)
-                #     for i in range(2):
-                #         for j in range(2):
-                #             self.pred_class[:,2*i+j] = (self.pred_area[:,i] *
-                #                                         self.pred_reveil[:,j])
-                # elif self.nclass == 3:
-                self.pred_class = torch.zeros(input.shape[0],8)
-                for i in range(2):
-                    for j in range(2):
-                        for k in range(2):
-                            self.pred_class[:,4*i+2*j+k] = ( self.pred_area[:,i] *
-                                                             self.pred_reveil[:,j] *
-                                                             self.pred_duration[:,k] )
-
+                self.pred_class = F.softmax(self.fc_clf(zi)).to(device)
         else:
-            #print('shape of input latent space: '+str(input.shape))
-#             print('I am in forward,\n my input is: '+str(input.shape)+str(type(input))+'\n My type  is: '+str(self.typ))
             if next(self.conv1.parameters()).is_cuda:
                 self.gan_class = self.latent_gan(input)
             else:
                 self.gan_class = self.latent_gan(input.type(torch.FloatTensor).to('cpu'))#.detach().cpu())
-                # self.gan_class = self.latent_gan(input.to('cpu'))
             
         if self.typ == 0: #autoencoder
             return self.decoded
         elif self.typ == 1 or self.typ == 4: #generator
-            #print('final result gen: '+str(self.gan_class))
             return zi_gan.squeeze(-1)
         elif self.typ == 2: #discriminator
-            #print('final result discrim: '+str(self.gan_class))
             return self.gan_class
         elif self.typ == 3: #classifier
-            return self.pred_class.to(device)
-            # return torch.tensor([1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1., 1.]).to(device)
+            out = self.pred_class
+            return out
 
     def loss_func(self, output, target):
         #print('In loss function!!!')
@@ -270,32 +222,20 @@ class stagerNetVAE(nn.Module):
         self.recons_loss = F.mse_loss(self.decoded, self.vae_inp)
         self.kld_loss = torch.mean(-0.5 * torch.sum(1 + self.log_var - self.mu ** 2 - self.log_var.exp(), dim = 1), dim = 0)
 
-        tmp = target > 3
-        self.targ1 = torch.zeros(tmp.shape).long().to(device)
-        self.targ1[tmp] = 1
-        tmp = (target % 4) > 1
-        self.targ2 = torch.zeros(tmp.shape).long().to(device)
-        self.targ2[tmp] = 1
+        self.targ1 = torch.zeros(target.shape).long().to(device)
+        self.targ1[target > 3] = 1
+        self.targ2 = torch.zeros(target.shape).long().to(device)
+        self.targ2[(target % 4) > 1] = 1
         self.targ3 = target % 2
         if self.nclass == 1:
             targ = self.targ1
-            out = self.pred_area
         elif self.nclass == 2:
-            targ = 2*self.targ1 + self.targ2
-            out = torch.zeros(target.shape[0],4).to(device)
-            for i in range(2):
-                for j in range(2):
-                    out[:,2*i+j] = (self.pred_area[:,i] *
-                                                self.pred_reveil[:,j])
+            targ = self.targ2
         elif self.nclass == 3:
-            targ = target
-            out = output
+            targ = self.targ3
 
-        # print('out/targ')
-        # print(out.get_device())
-        # print(targ.get_device())
         ce = nn.CrossEntropyLoss()
-        self.classif_loss = ce(out, targ)
+        self.classif_loss = ce(output, targ)
 
         loss = ((1-classif_weight)*(VAE_weight*
                 ((1-self.kld_weight)*self.recons_loss + #Reconstruction loss
