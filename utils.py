@@ -210,12 +210,16 @@ class TrainClassif(Callback):
         cycle_len = 5
         if (self.epoch+1) % cycle_len == 0:
             self.learn.model.fc_clf = self.learn.model.fc_clf.requires_grad_(True)
+            self.learn.model.fc_clf = self.learn.model.fc_clf2.requires_grad_(True)
+            self.learn.model.fc_clf = self.learn.model.fc_clf3.requires_grad_(True)
             self.learn.model.fc_crit = self.learn.model.fc_crit.requires_grad_(True)
             self.learn.model.fc_crit2 = self.learn.model.fc_crit2.requires_grad_(True)
             self.learn.model.fc_crit3 = self.learn.model.fc_crit3.requires_grad_(True)
             print("!!!!!!!!!!! GRAD SET TO TRUE !!!!!!!!!!!!!")
         elif (self.epoch+1) % cycle_len == 1:
             self.learn.model.fc_clf = self.learn.model.fc_clf.requires_grad_(False)
+            self.learn.model.fc_clf = self.learn.model.fc_clf2.requires_grad_(False)
+            self.learn.model.fc_clf = self.learn.model.fc_clf3.requires_grad_(False)
             self.learn.model.fc_crit = self.learn.model.fc_crit.requires_grad_(False)
             self.learn.model.fc_crit2 = self.learn.model.fc_crit2.requires_grad_(False)
             self.learn.model.fc_crit3 = self.learn.model.fc_crit3.requires_grad_(False)

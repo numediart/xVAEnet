@@ -23,7 +23,9 @@ retrain_classif3 = True
 retrain_glob = True
 load_dls = True
 load_dls_gan = True
-load_dls_classif = False
+load_dls_classif1 = False
+load_dls_classif2 = False
+load_dls_classif3 = False
 load_dls_glob = True
 
 print("retrain vae is: "+str(retrain_vae))
@@ -184,7 +186,7 @@ device = torch.device('cpu') #GAN Learner requires CPU for multitask
 
 getters = [ItemGetter(0), ItemGetter(1)]
 
-# define x for dls_gan and dls_classif
+# define x for dls_gan
 x = torch.stack(list(zip(*dls.train_ds))[0],dim=0)
 x = torch.vstack((x,torch.stack(list(zip(*dls.valid_ds))[0],dim=0)))
 print("global max/min:")
@@ -315,35 +317,55 @@ print('all the labels are:')
 print(lab_all.shape)
 print(lab_all)
 
+tmp = copy(lab_all)
+lab_all[tmp==3] = 4
+lab_all[tmp==4] = 3
+
+lab3 = deepcopy(lab_all)
+lab3[:] = 0
+lab3[lab_all>1] = 1
+lab3[lab_all>5] = 2
+print('lab3: ')
+print(np.unique(lab3))
+
+lab4 = deepcopy(lab_all)
+lab4[lab_all>0] = 1
+lab4[lab_all>3] = 2
+lab4[lab_all==7] = 3
+print('lab4: ')
+print(np.unique(lab4))
+
 # idx0 = np.where(labels==0)[0]
 # labels[idx0] = -1
 # print('check labels')
 # # test = torch.randint(0, 10, (1,8))
 # print(labels[:8])
 
-if load_dls_classif:
+if load_dls_classif1:
     # dls_classif = torch.load('dls_classif.pkl')
-    dls_classif = torch.load('dls_classif.pkl')
+    dls_classif = torch.load('dls_classif_1.pkl')
     # zi = torch.load('data/zi_classif.pt')
-    print("dls_classif loaded")
+    print("dls_classif1 loaded")
 else:
     getters = [ItemGetter(0), ItemGetter(1)]
     # tfms = [None, TensorUnsqueeze(0)]
     dblock = DataBlock(blocks=(TSTensorBlock,CategoryBlock),
                        getters=getters,
                        splitter=splitter,
-                       # item_tfms=tfms)
                        batch_tfms=norm_batch)
-    # y = torch.from_numpy(labels)
-    # src = itemify(x.to('cpu'),labels)
-    src = itemify(x.to('cpu'),lab_all)
+
+    lab = torch.Tensor(lab_area).unsqueeze(-1)
+    lab_stack = torch.hstack((lab,torch.zeros(len(lab),x.shape[1]-1)))
+    x_classif = torch.dstack((x,lab_stack))
+
+    src = itemify(x_classif.to('cpu'),lab_area)
     print("x in classif: ")
-    print(x.max(),x.min(), x.shape)
+    print(x_classif.max(),x_classif.min(), x_classif.shape)
     dls_classif = dblock.dataloaders(src, bs=16, val_bs=32)
 
     print("one_batch classif:")
     print(torch.tensor(dls_classif.one_batch()[0][0,:8,:8]))
-    # torch.save(dls_classif, 'dls_classif_all.pkl')
+    torch.save(dls_classif, 'dls_classif_1.pkl')
 
     # print("get zi for first clf fit")
     # learnGan.get_preds(cbs=GetLatentSpace(cycle_len=1))
@@ -357,7 +379,7 @@ print(torch.stack(list(zip(*dls_classif.train_ds[:8]))[1],dim=0))
 #train classifier
 print("start classifier training")
 print("check saved code 25")
-classif = stagerNetVAE(typ=3, dropout_rate=0)
+classif = stagerNetVAE(typ=3, nclass=1, dropout_rate=0)
 classif.conv1.load_state_dict(learnGan.generator.conv1.state_dict())
 classif.conv2.load_state_dict(learnGan.generator.conv2.state_dict())
 classif.conv3.load_state_dict(learnGan.generator.conv3.state_dict())
@@ -380,41 +402,20 @@ print(next(classif.conv1.parameters()).is_cuda)
 print(dls_classif.dataset[0][1].is_cuda)
 print(dls_classif.dataset[0][0].is_cuda)
 
-# f1score = F1Score(axis=1)
 learnClassif = Learner(dls_classif, classif, loss_func=classif.classif_loss_func,
                        metrics=accuracy, opt_func=ranger)
-# learnClassif.dls.to(dev)
 print('check cuda 2')
 print(next(learnClassif.model.conv1.parameters()).get_device())
 print(learnClassif.dls.dataset[0][1].get_device())
 print(learnClassif.dls.dataset[0][0].get_device())
-# time.sleep(10)
-#freeze discriminator weights
-# i = 0
-# for param in learnClassif.model.children():
-#     # if i<14:
-#     # if i<7:
-#     if i<14:
-#         i += 1
-#         continue
-#     # elif i==17:
-#     elif i==16:
-#         print("my param for classif:")
-#         print(param)
-#         break
-#     else:
-#         param.requires_grad_ = False
-#         # print(param)
-#         # print(param.requires_grad_)
-#         i += 1
 
 # learnClassif.load('classif_22_10_24_3')
-classif_filename = 'classif1_22_11_1'
+classif_filename = 'classif1_22_11_25'
 
 if retrain_classif1:
     learning_rate = learnClassif.lr_find()
     print('learning rate: '+str(learning_rate.valley))
-    learnClassif.fit_flat_cos(500, lr=learning_rate.valley,
+    learnClassif.fit_flat_cos(3, lr=learning_rate.valley,
     # learnClassif.fit_flat_cos(500, lr=1e-3,
                             cbs=[CheckNorm(),
                                 GradientAccumulation(n_acc=64),
@@ -434,7 +435,33 @@ if retrain_classif1:
 
 
 # classifier with 2 classes
-classif2_filename = 'classif2_22_11_1'
+classif2_filename = 'classif2_22_11_25'
+
+if load_dls_classif2:
+    # dls_classif = torch.load('dls_classif.pkl')
+    dls_classif = torch.load('dls_classif_2.pkl')
+    # zi = torch.load('data/zi_classif.pt')
+    print("dls_classif2 loaded")
+else:
+    getters = [ItemGetter(0), ItemGetter(1)]
+    # tfms = [None, TensorUnsqueeze(0)]
+    dblock = DataBlock(blocks=(TSTensorBlock,CategoryBlock),
+                       getters=getters,
+                       splitter=splitter,
+                       batch_tfms=norm_batch)
+
+    lab = torch.vstack((torch.Tensor(lab_area), torch.Tensor(lab_reveil))).T
+    lab_stack = torch.hstack((lab,torch.zeros(len(lab),x.shape[1]-2)))
+    x_classif = torch.dstack((x,lab_stack))
+
+    src = itemify(x_classif.to('cpu'),lab3)
+    print("x in classif: ")
+    print(x_classif.max(),x_classif.min(), x_classif.shape)
+    dls_classif = dblock.dataloaders(src, bs=16, val_bs=32)
+
+    print("one_batch classif:")
+    print(torch.tensor(dls_classif.one_batch()[0][0,:8,:8]))
+    torch.save(dls_classif, 'dls_classif_2.pkl')
 
 classif = stagerNetVAE(typ=3, nclass=2, dropout_rate=0)
 learnClassif = Learner(dls_classif, classif, loss_func=classif.classif_loss_func,
@@ -446,8 +473,7 @@ print('learnClassif1 loaded')
 if retrain_classif2:
     learning_rate = learnClassif.lr_find()
     print('learning rate: '+str(learning_rate.valley))
-    learnClassif.fit_flat_cos(500, lr=learning_rate.valley,
-    # learnClassif.fit_flat_cos(500, lr=1e-3,
+    learnClassif.fit_flat_cos(3, lr=learning_rate.valley,
                             cbs=[CheckNorm(),
                                 GradientAccumulation(n_acc=64),
                                 TrackerCallback(),
@@ -455,10 +481,6 @@ if retrain_classif2:
                                 EarlyStoppingCallback(min_delta=1e-4,patience=30),
                                 TrainClassif()])
 
-                                # GetLatentSpace(cycle_len=cycle_len),
-                                # TrainClassif(zi_init=zi, labels=labels, cycle_len=cycle_len)])
-
-    # learnClassif_filename = str(classif_filename)+'_learn'
     learnClassif.save(classif2_filename+'_learn')
 
     np.save('results/'+str(classif2_filename)+'_losses.npy', learnClassif.recorder.losses)
@@ -466,7 +488,30 @@ if retrain_classif2:
 
 
 # classifier with 3 classes
-classif3_filename = 'classif3_22_11_1'
+classif3_filename = 'classif3_22_11_25'
+
+if load_dls_classif3:
+    # dls_classif = torch.load('dls_classif.pkl')
+    dls_classif = torch.load('dls_classif_3.pkl')
+    # zi = torch.load('data/zi_classif.pt')
+    print("dls_classif3 loaded")
+else:
+    getters = [ItemGetter(0), ItemGetter(1)]
+    dblock = DataBlock(blocks=(TSTensorBlock,CategoryBlock),
+                       getters=getters,
+                       splitter=splitter,
+                       batch_tfms=norm_batch)
+
+    lab = torch.vstack((torch.Tensor(lab_area), torch.Tensor(lab_reveil), torch.Tensor(lab_duration))).T
+    lab_stack = torch.hstack((lab,torch.zeros(len(lab),x.shape[1]-3)))
+    x_classif = torch.dstack((x,lab_stack))
+
+    src = itemify(x_classif.to('cpu'),lab4)
+    dls_classif = dblock.dataloaders(src, bs=16, val_bs=32)
+
+    print("one_batch classif:")
+    print(torch.tensor(dls_classif.one_batch()[0][0,:8,:8]))
+    torch.save(dls_classif, 'dls_classif_3.pkl')
 
 classif = stagerNetVAE(typ=3, nclass=3, dropout_rate=0)
 learnClassif = Learner(dls_classif, classif, loss_func=classif.classif_loss_func,
@@ -478,8 +523,7 @@ print('learnClassif2 loaded')
 if retrain_classif3:
     learning_rate = learnClassif.lr_find()
     print('learning rate: '+str(learning_rate.valley))
-    learnClassif.fit_flat_cos(500, lr=learning_rate.valley,
-    # learnClassif.fit_flat_cos(500, lr=1e-3,
+    learnClassif.fit_flat_cos(5, lr=learning_rate.valley,
                             cbs=[CheckNorm(),
                                 GradientAccumulation(n_acc=64),
                                 TrackerCallback(),
@@ -487,10 +531,6 @@ if retrain_classif3:
                                 EarlyStoppingCallback(min_delta=1e-4,patience=30),
                                 TrainClassif()])
 
-                                # GetLatentSpace(cycle_len=cycle_len),
-                                # TrainClassif(zi_init=zi, labels=labels, cycle_len=cycle_len)])
-
-    # learnClassif_filename = str(classif_filename)+'_learn'
     learnClassif.save(classif3_filename+'_learn')
 
     np.save('results/'+str(classif3_filename)+'_losses.npy', learnClassif.recorder.losses)
@@ -617,7 +657,7 @@ mypal = np.tile(pal[0],(len(lab_all),1))
 for i in range(len(lab_all)):
     mycol = 4*lab_area[i]+2*lab_reveil[i]+lab_duration[i]
     if mycol == 3: mycol = 4
-elif mycol == 4: mycol = 3
+    elif mycol == 4: mycol = 3
     mypal[i] = pal[mycol]
 
 tmp = mypal
