@@ -107,7 +107,8 @@ and have been validate on the testset with a batch size of 32
 only the learning rate and the combination of loss functions
 differ. A gradient accumulation of 64 samples and an early
 stopping option based on the validation loss with a patience
-of 30 epochs have also been used. On the hypoxic burden, the
+of 30 epochs have also been used. 
+On the hypoxic burden, the
 learning rate was set to 10−3 and, once every 5 epochs, the
 whole model was trained using a global loss combining the
 three modules:
@@ -126,7 +127,7 @@ On the
 respiratory event duration, the learning rate was set to 2·10−4,
 the global training was performed every 5 epochs and, twice
 every 3 epochs, the classification has been performed on all the
-severity features+ using a weighted sum of all classification
+severity features using a weighted sum of all classification
 losses: 
 ```math
 \mathcal{L}_{classif_3} = \frac{1}{3}\cdot \mathcal{L}_{hypox} + \frac{1}{3}\cdot \mathcal{L}_{arousal} + \frac{1}{3}\cdot \mathcal{L}_{duration}
