@@ -137,7 +137,6 @@ losses:
 \mathcal{L}_{classif_3} = \frac{1}{3}\cdot \mathcal{L}_{hypox} + \frac{1}{3}\cdot \mathcal{L}_{arousal} + \frac{1}{3}\cdot \mathcal{L}_{duration}
 ```
 
-
 ### Quantitative Results
 Once trained, the VAE module is able to properly reconstruct the
 input PSG signals, with a final root-mean-square error (RMSE)
@@ -154,6 +153,10 @@ real inputs. However, this mean accuracy decreases to 52.3%
 and 49.8% (testset) when samples from Ze (fake input) is
 given as input, meaning the generator generates Ze samples
 sufficiently similar to Zd samples to fool the discriminator. 
+
+## xAAEnet
+### Architecture
+The xAAEnet architecture is a variation of the xVAEnet, with several key differences. While both models have an encoder-decoder structure with a latent space in between, the xAAEnet's latent block has a simpler design, consisting of only one dense layer and one batch normalization layer. This block does not use any reparameterization technique, in contrast to the xVAEnet, which employs a variational autoencoder approach. Additionally, the xAAEnet's final block is a regressor block that includes a single-layer perceptron with one output, and no activation function. These changes were made to adapt the model for the specific task of severity scoring in obstructive sleep apnea, and to simplify the training process.
 
 ## References
 [1] A. S. Jordan, D. G. McSharry, and A. Malhotra, “Adult obstructive sleep
