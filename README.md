@@ -1,7 +1,10 @@
-# xVAEnet
-This repository provides the open-source codes and supplementary materials related to the publication:   
-La Fisca *et al*, "Explainable AI for EEG Biomarkers Identification
-in Obstructive Sleep Apnea Severity Scoring Task", 2023.
+# SleepSense
+## Scoring the Severity of Sleep Disorders With Explainable AI
+This repository provides the open-source codes and supplementary materials related to the publications:   
+- La Fisca *et al*, "Explainable AI for EEG Biomarkers Identification in Obstructive Sleep Apnea Severity Scoring Task", NER 2023.
+- La Fisca *et al*, "Enhancing OSA Assessment with Explainable AI", EMBC 2023.
+
+The pending patent 23168189.1. describes the general method for scoring the severity of a sleep-related disorder from polysomnographic (PSG) signals.
 
 ## Data
 Each trial in the dataset is composed of 23 channels and 3001 timestamps, as shown on Figure 1
@@ -62,11 +65,12 @@ signals,” IEEE Transactions on Instrumentation and Measurement,
 vol. 52, no. 1, pp. 2–6, Feb. 2003, conference Name: IEEE Transactions
 on Instrumentation and Measurement.
 
-## Architecture
+## xVAEnet
+### Architecture
 ![alt text](https://github.com/numediart/xVAEnet/blob/main/detailed_architecture.png)
 Fig2. Detailed xVAEnet architecture
 
-## Training
+### Training
 The entire training phase has been
 performed on an NVIDIA GeForce GTX 1080Ti 12Go RAM
 on 12 workers.
@@ -134,7 +138,7 @@ losses:
 ```
 
 
-## Quantitative Results
+### Quantitative Results
 Once trained, the VAE module is able to properly reconstruct the
 input PSG signals, with a final root-mean-square error (RMSE)
 of 0.196 on the trainset and 0.247 on the testset.
