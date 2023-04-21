@@ -4,7 +4,8 @@ This repository provides the open-source codes and supplementary materials relat
 - La Fisca *et al*, "Explainable AI for EEG Biomarkers Identification in Obstructive Sleep Apnea Severity Scoring Task", NER 2023.
 - La Fisca *et al*, "Enhancing OSA Assessment with Explainable AI", EMBC 2023.
 
-The pending patent 23168189.1. describes the general method for scoring the severity of a sleep-related disorder from polysomnographic (PSG) signals.
+The pending patent application 23168189.1 describes a general method for scoring the severity of sleep-related disorders from polysomnographic (PSG) signals.
+Due to non-disclosure considerations, we are only able to make the codes for the xVAEnet model available as open-source data here.
 
 ## Data
 Each trial in the dataset is composed of 23 channels and 3001 timestamps, as shown on Figure 1
