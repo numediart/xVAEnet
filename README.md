@@ -159,6 +159,42 @@ sufficiently similar to Zd samples to fool the discriminator.
 ### Architecture
 The xAAEnet architecture is a variation of the xVAEnet, with several key differences. While both models have an encoder-decoder structure with a latent space in between, the xAAEnet's latent block has a simpler design, consisting of only one dense layer and one batch normalization layer. This block does not use any reparameterization technique, in contrast to the xVAEnet, which employs a variational autoencoder approach. Additionally, the xAAEnet's final block is a regressor block that includes a single-layer perceptron with one output, and no activation function. These changes were made to adapt the model for the specific task of severity scoring in obstructive sleep apnea, and to simplify the training process.
 
+### Training
+The entire training phase has been
+performed on an NVIDIA GeForce GTX 1080Ti 12Go RAM
+on 12 workers.
+The first module to be trained is the autoencoder (AE) module. The training
+process has been performed on the trainset on 50 epochs with
+a batch size of 16, a learning rate of 1 · 10−3 and a ranger
+optimizer, while the validation has been done on the testset
+with a batch size of 32. A gradient accumulation of 64 samples
+and an early stopping option based on the validation loss with
+a patience of 15 epochs have also been used.
+
+Then, the scoring unit is initialized with the weights
+of the best encoder previously obtained and the single-
+layer perceptron (SLP) is randomly initialized. The training process
+for the scoring task, based on the hand-crafted score S_h described in the paper, has been performed on the trainset
+on 50 epochs with a batch size of 16, a learning rate of 5 · 10−4 and a ranger optimizer,
+and have been validate on the testset with a batch size of 32.
+A gradient accumulation of 64 samples and an early
+stopping option based on the validation loss with a patience
+of 25 epochs have also been used. 
+
+Finally, the GAN module has been trained by initializing the
+generator with the best weights of the encoder obtained during
+the training phase of the scoring unit and the discriminator is randomly
+initialized. At each batch, the discriminator is first trained
+by freezing the generator and using the loss function of the
+discriminator described in Section III C, then the generator is
+trained by freezing the discriminator and using the correspond-
+ing loss function. This training phase is performed on the
+trainset on 50 epochs with a batch size of 16, a learning rate
+of 2 · 10−4 and a root mean square propagation (RMSprop)
+optimizer, while the validation process is done with a batch
+size of 32. A gradient accumulation of 64 samples and an early
+stopping option with a patience of 25 are also used.
+
 ## References
 [1] A. S. Jordan, D. G. McSharry, and A. Malhotra, “Adult obstructive sleep
 apnoea,” The Lancet, vol. 383, no. 9918, pp. 736–747, Feb. 2014.  
