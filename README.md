@@ -24,7 +24,7 @@ significantly affected by ocular artifacts have been excluded
 from the database, based on the correlation between the EOG
 and the FP1 signals. Trials with non-physiological amplitudes
 are also excluded, based on their peak-to-peak voltage (VPP):
-VP-P < 10−7V and VP-P > 6 ∗ 10−4V are excluded. A
+VP-P < 10−7V and VP-P > 6 ∗ 10<sup>-4</sup>V are excluded. A
 baseline correction was applied using a segment of 10 seconds
 preceding each trial as the baseline. The EEG delta band power
 being the most varying frequency band during sleep apneahypopnea
