@@ -174,7 +174,7 @@ a patience of 15 epochs have also been used.
 Then, the scoring unit is initialized with the weights
 of the best encoder previously obtained and the single-
 layer perceptron (SLP) is randomly initialized. The training process
-for the scoring task, based on the hand-crafted score S~h~ described in the paper, has been performed on the trainset
+for the scoring task, based on the hand-crafted score S<sub>h</sub> described in the paper, has been performed on the trainset
 on 50 epochs with a batch size of 16, a learning rate of 5 · 10−4 and a ranger optimizer,
 and have been validate on the testset with a batch size of 32.
 A gradient accumulation of 64 samples and an early
