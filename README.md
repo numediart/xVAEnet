@@ -24,9 +24,9 @@ significantly affected by ocular artifacts have been excluded
 from the database, based on the correlation between the EOG
 and the FP1 signals. Trials with non-physiological amplitudes
 are also excluded, based on their peak-to-peak voltage (VPP):
-VP-P < 10−7V and VP-P > 6 ∗ 10<sup>-4</sup>V are excluded. A
+VP-P < 10<sup>-7</sup>V and VP-P > 6 ∗ 10<sup>-4</sup>V are excluded. A
 baseline correction was applied using a segment of 10 seconds
-preceding each trial as the baseline. The EEG delta band power
+preceding each trial as the baseline. The EEG delta band powe7
 being the most varying frequency band during sleep apneahypopnea
 occurrence [2], we focused our analysis on low
 frequency EEG components by filtering the signals into 2Hz
@@ -77,7 +77,7 @@ performed on an NVIDIA GeForce GTX 1080Ti 12Go RAM
 on 12 workers.
 The first module to be trained is the VAE module. The training
 process has been performed on the trainset on 100 epochs with
-a batch size of 16, a learning rate of 5 · 10−3 and a ranger
+a batch size of 16, a learning rate of 5 · 10<sup>-3</sup> and a ranger
 optimizer, while the validation has been done on the testset
 with a batch size of 32. A gradient accumulation of 64 samples
 and an early stopping option based on the validation loss with
@@ -91,7 +91,7 @@ discriminator described in Section III, then the generator is
 trained by freezing the discriminator and using the correspond-
 ing loss function. This training phase is performed on the
 trainset on 100 epochs with a batch size of 16, a learning rate
-of 2 · 10−3 and a root mean square propagation (RMSprop)
+of 2 · 10<sup>-3</sup> and a root mean square propagation (RMSprop)
 optimizer, while the validation process is done with a batch
 size of 32. A gradient accumulation of 64 samples and an early
 stopping option with a patience of 30 are also used. Every 15
@@ -114,13 +114,13 @@ differ. A gradient accumulation of 64 samples and an early
 stopping option based on the validation loss with a patience
 of 30 epochs have also been used. 
 On the hypoxic burden, the
-learning rate was set to 10−3 and, once every 5 epochs, the
+learning rate was set to 10<sup>-3</sup> and, once every 5 epochs, the
 whole model was trained using a global loss combining the
 three modules:
 ```math
 \mathcal{L}_{global} = \frac{1}{3}\mathcal{L}_{VAE} + \frac{1}{3} \frac{1}{bs} \sum_{i=1}^{bs} (1-fake\_pred_{i}) + \frac{1}{3}\mathcal{L}_{classif}
 ```
-On the arousal event, the learning rate was set to 5 · 10−4, the
+On the arousal event, the learning rate was set to 5 · 10<sup>-4</sup>, the
 global training was performed every 5 epochs and, once every
 2 epochs, the classification has been performed on both the
 hypoxic burden and the arousal event using a weighted sum
@@ -129,7 +129,7 @@ of both losses:
 \mathcal{L}_{classif_2} = \frac{1}{2}\cdot \mathcal{L}_{hypox} + \frac{1}{2}\cdot \mathcal{L}_{arousal}
 ```
 On the
-respiratory event duration, the learning rate was set to 2·10−4,
+respiratory event duration, the learning rate was set to 2·10<sup>-4</sup>,
 the global training was performed every 5 epochs and, twice
 every 3 epochs, the classification has been performed on all the
 severity features using a weighted sum of all classification
@@ -165,7 +165,7 @@ performed on an NVIDIA GeForce GTX 1080Ti 12Go RAM
 on 12 workers.
 The first module to be trained is the autoencoder (AE) module. The training
 process has been performed on the trainset on 50 epochs with
-a batch size of 16, a learning rate of 1 · 10−3 and a ranger
+a batch size of 16, a learning rate of 1 · 10<sup>-3</sup> and a ranger
 optimizer, while the validation has been done on the testset
 with a batch size of 32. A gradient accumulation of 64 samples
 and an early stopping option based on the validation loss with
@@ -175,7 +175,7 @@ Then, the scoring unit is initialized with the weights
 of the best encoder previously obtained and the single-
 layer perceptron (SLP) is randomly initialized. The training process
 for the scoring task, based on the hand-crafted score S<sub>h</sub> described in the paper, has been performed on the trainset
-on 50 epochs with a batch size of 16, a learning rate of 5 · 10−4 and a ranger optimizer,
+on 50 epochs with a batch size of 16, a learning rate of 5 · 10<sup>-4</sup> and a ranger optimizer,
 and have been validate on the testset with a batch size of 32.
 A gradient accumulation of 64 samples and an early
 stopping option based on the validation loss with a patience
@@ -190,7 +190,7 @@ discriminator described in Section III C, then the generator is
 trained by freezing the discriminator and using the correspond-
 ing loss function. This training phase is performed on the
 trainset on 50 epochs with a batch size of 16, a learning rate
-of 2 · 10−4 and a root mean square propagation (RMSprop)
+of 2 · 10<sup>-4</sup> and a root mean square propagation (RMSprop)
 optimizer, while the validation process is done with a batch
 size of 32. A gradient accumulation of 64 samples and an early
 stopping option with a patience of 25 are also used.
