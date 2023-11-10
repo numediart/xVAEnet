@@ -1,3 +1,6 @@
+# /!\ This repository is out of date /!\
+Please refer to [xAAEnet](https://github.com/numediart/xAAEnet) to have the updated version
+
 # SleepSense
 ## Scoring the Severity of Sleep Disorders With Explainable AI
 This repository provides the open-source codes and supplementary materials related to the publications:   
